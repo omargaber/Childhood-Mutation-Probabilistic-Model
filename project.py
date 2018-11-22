@@ -8,34 +8,70 @@ unilateral_familial = {age_one: 4.0, age_two: 6.0, age_three: 8.0,
 bilateral_familial = {age_one: 45.0, age_two: 29.0, age_three: 11.0,
                       age_four: 2.0, age_five: 1.0, age_older_older: 2.0}
 
-unilateral_familial = {age_one: 33.0, age_two: 39.0, age_three: 40.0,
+unilateral_non_familial = {age_one: 33.0, age_two: 39.0, age_three: 40.0,
                        age_four: 20.0, age_five: 11.0, age_older_older: 6.0}
 
 
-# Time intervale -> [o,t]
-mean_tumors_infinity = 3.0
-mean_tumors = -1 * (math.log(math.exp(-1.0 * mean_tumors_infinity) +
-                             (1 - math.exp(mean_tumors_infinity)) * herditary_cancer))
-probability_eye_no_mutation = float(math.exp(-1 * (float(mean_tumors / 2))))
-probability_eye_at_least_one_mutation = 1.0 - probability_no_mutation
-
-probability_individual_no_mutation = float(math.exp(-1.0 * mean_tumors))
-probability_individual_at_least_one_mutation = probability_eye_at_least_one_mutation
+# Functions
+def eye_no_mutation(mean_tumors):
+    probability_eye_no_mutation = float(
+        math.exp(-1 * (float(mean_tumors / 2))))
+    return probability_eye_no_mutation
 
 
-hereditary_cancer_num = probability_individual_no_mutation - \
-    math.exp(-1 * mean_tumors_infinity)
-hereditary_cancer_den = 1 - math.exp(-1 * mean_tumors_infinity)
-hereditary_cancer = hereditary_cancer_num/float(hereditary_cancer_den)
+def eye_at_least_one_mutation(probability_no_mutation):
+    probability_eye_at_least_one_mutation = 1.0 - \
+        float(probability_no_mutation)
+    return probability_eye_at_least_one_mutation
 
 
-hereditary_unilat_num = (probability_eye_no_mutation) - \
-    (math.exp(-(mean_tumors_infinity/2)))
-hereditary_unilat_den = 1 - (math.exp(-(mean_tumors_infinity/2)))
-
-hereditary_unilateral = hereditary_unilat_num/float(hereditary_unilat_den)
+def person_no_mutation(mean_tumors):
+    probability_individual_no_mutation = float(math.exp(-1.0 * mean_tumors))
+    return probability_individual_no_mutation
 
 
-hereditary_bilateral_num = (hereditary_unilat_num)**2
-hereditary_bilateral_den = (hereditary_unilat_den)**2
-hereditary_bilateral = hereditary_bilateral_num/float(hereditary_bilateral_den)
+def person_at_least_one_mutation(probability_eye_at_least_one_mutation):
+    probability_individual_at_least_one_mutation = probability_eye_at_least_one_mutation
+    return probability_individual_at_least_one_mutation
+
+
+def HC(m, mi):
+    hereditary_cancer_num = (math.exp(-1.0 * m)) - (math.exp(-1.0 * mi)
+    hereditary_cancer_den=1.0 - (math.exp(-1.0 * mi))
+    hereditary_cancer=hereditary_cancer_num/float(hereditary_cancer_den)
+    return hereditary_cancer
+
+def HU(m, mi):
+    hereditary_unilat_num=(math.exp(-1.0 * (float(m)/2))) -
+                           (math.exp(-1.0 * (float(mi)/2)))
+    hereditary_unilat_den=1 - (math.exp(-(float(mi)/2)))
+    hereditary_unilateral=hereditary_unilat_num/float(hereditary_unilat_den)
+    return hereditary_unilateral
+
+def HB(m, mi):
+    hereditary_bilateral_num=(
+        (math.exp(-1.0 * (float(m)/2))) - (math.exp(-1.0 * (float(mi)/2))))**2
+    hereditary_bilateral_den=(1 - (math.exp(-(float(mi)/2))))**2
+    hereditary_bilateral=hereditary_bilateral_num /
+        float(hereditary_bilateral_den)
+    return hereditary_bilateral
+
+
+
+# Time interval -> [o,t]
+mean_tumors_infinity=3.0
+mean_tumors_infinity_true=4.0
+
+hereditary_cancer_calc_at_infinity={age_one: 1.0, age_two: 0.62, age_three: 0.33,
+                                      age_four: 0.13, age_five: 0.051, age_older_older: 0.014}
+mean_tumors_at_infinity=-1 * (math.log(math.exp(-1.0 * mean_tumors_infinity) + (
+    (1 - math.exp(mean_tumors_infinity)) * hereditary_cancer_calc_at_infinity)))
+
+hereditary_cancer_calc_at_infinity_true={age_one: 1.0, age_two: 0.58, age_three: 0.27,
+                                           age_four: 0.10, age_five: 0.045, age_older_older: 0.017}
+mean_tumors_at_infinity_true=-1 * (math.log(math.exp(-1.0 * mean_tumors_infinity) + (
+    (1 - math.exp(mean_tumors_infinity)) * hereditary_cancer_calc_at_infinity_true)))
+
+
+for i in range(len(unilateral_familial)):
+    print (i, "    \n %d", unilateral_familial[i])
