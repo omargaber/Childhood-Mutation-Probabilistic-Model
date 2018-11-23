@@ -70,19 +70,8 @@ print("\nWhen m(t) = 4")
 for i in m_t_i:
     print i, m_t_i[i]
 
+
 # Functions
-
-# def m_t(hc):
-#     calc_mean = -1 * (math.log(math.exp(-1.0 * mean_tumors_infinity) + (
-#         (1 - math.exp(mean_tumors_infinity)) * hc)))
-#     return calc_mean
-
-
-# def m_t_i(hc):
-#     calc_mean = -1 * (math.log(math.exp(-1.0 * mean_tumors_infinity_true) + (
-#         (1 - math.exp(mean_tumors_infinity_true)) * hc)))
-#     return calc_mean
-
 
 def eye_no_mutation(mean_tumors):
     probability_eye_no_mutation = float(
@@ -130,11 +119,22 @@ def HB(m, mi):
     return hereditary_bilateral
 
 
-hc_poisson_infinity = {}
-hc_poisson_infinity_true = {}
-
 hu_poisson_infinity = {}
 hu_poisson_infinity_true = {}
 
 hb_poisson_infinity = {}
 hb_poisson_infinity_true = {}
+
+
+for i in hu_calc_at_infinity:
+    hu_poisson_infinity[i] = HU(m_t[i], mean_tumors_infinity)
+
+for i in hu_calc_at_infinity_true:
+    hu_poisson_infinity_true[i] = HU(m_t_i[i], mean_tumors_infinity_true)
+
+
+for i in hb_calc_at_infinity:
+    hb_poisson_infinity[i] = HB(m_t[i], mean_tumors_infinity)
+
+for i in hb_calc_at_infinity_true:
+    hb_poisson_infinity_true[i] = HB(m_t_i[i], mean_tumors_infinity_true)
