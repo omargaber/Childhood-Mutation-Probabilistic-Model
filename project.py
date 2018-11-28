@@ -48,7 +48,7 @@ for i in hc_calc_at_infinity:
     y = 1 - x
     z = x + y
     prefinal = z * hc_calc_at_infinity[i]
-    final = math.log(prefinal)
+    final = math.log(prefinal) * -1.0
     # m_t[i] = (math.log(math.exp(-1.0 * mean_tumors_infinity) +
     #    ((1 - math.exp(mean_tumors_infinity)) * hc_calc_at_infinity[i]))) * -1
     m_t[i] = final
@@ -58,7 +58,7 @@ for i in hc_calc_at_infinity_true:
     y = 1 - x
     z = x + y
     prefinal = z * hc_calc_at_infinity_true[i]
-    final = math.log(prefinal)
+    final = math.log(prefinal) * -1.0
     # m_t[i] = (math.log(math.exp(-1.0 * mean_tumors_infinity) +
     #    ((1 - math.exp(mean_tumors_infinity)) * hc_calc_at_infinity[i]))) * -1
     m_t_i[i] = final
